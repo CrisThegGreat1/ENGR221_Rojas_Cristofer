@@ -1,0 +1,40 @@
+1) How is the players location represented on the board?
+
+Like the second lab It look like orginaly the players location is set by the function 
+"def init_player(self):" which is a function. The function retrives the board column/ tile
+at the top left corner of the board and convertes it into player. Then when the player 
+moves the cells that it moves into then become players.
+
+2) what method(s) are given to help access different parts of the players body?
+
+"def get_player(self):" and "def get_tail(self):" looks like are the two functions that call
+on the different places of the players body. One of the retirves the tail while the other 
+retrives the head.
+
+3) What are the different movement modes of the player, and what do they mean in terms of 
+how the player moves each term?
+
+From what I can tell you have your basic movement funcitons "move_player_down(self)" which
+obviously as it says in the title moves the player down, you have the same kind of functions
+for left, right, and up, but theres this one funciton that looks kind of interesting. 
+"def move_player_to_cell(self, cell: Cell) -> None:" in the description it says 
+move the player to the given cell which is what that "cell: Cell" means. Im assuimg there will 
+probably be something in the game that allows you to chose the cell you want to move to or 
+maybe its an option at the beggining of the game. In terms of what it will look like visually
+it porbably means that the snake/player will slither to that spefic cell without having to 
+touch the keys.
+
+4) note that the players movement is determined in the move_player() method. what is the 
+current behavior of get_next_cell? get_next_cell_ai()?
+
+well one of them functinos I rember seeing in the second lab, before you move to the next cell your 
+computer obviously has to retrive the cell you want to move to, that what the function is doing,
+first it locates where the player is currently at on the board and it retrives the cells that are
+directly next to it. as for the ai version, im looking at the other functions that also have this 
+ai in the function name and its controllers act the same the only difference is that its in "ai" mode
+probably no different here.
+
+
+Pseudo code 2.1
+""" IF next cell contains food:  Move the head into the next cell  Keep the tail in its current position
+  ELSE IF next cell is empty:  Move the head into the next cell  Remove the old tail"""
