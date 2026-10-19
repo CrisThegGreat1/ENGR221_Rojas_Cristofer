@@ -71,6 +71,26 @@ were added.
 
 section 2.3 Pseudocode
 
+Part 1: move_player_to_cell() Pseudocode
+
+1. Check whether the next cell is invalid or contains part of the player's body.
+   - If either condition is true, end the game.
+
+2. Otherwise, check whether the next cell contains food.
+
+3. Convert the current player's head into a body segment.
+
+4. Change the next cell into the new player's head.
+
+5. Add the new head to the beginning of the body list.
+
+6. If the next cell did not contain food:
+   - Remove the last cell from the body list.
+   - Change that removed cell into an empty cell.
+
+7. If food was collected, keep the tail so the snake grows.
+
+
 
 Part 3: get_first_cell_in_path() Pseudocode
 
