@@ -1,6 +1,6 @@
 """ TODO
 Author: Cristofer Rojas
-Add a description here!
+Manages the game board, player movement, food collection, scoring, and AI pathfinding using BFS and DFS.
 """
 
 import random

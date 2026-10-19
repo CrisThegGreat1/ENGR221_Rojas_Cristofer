@@ -1,6 +1,6 @@
 """ TODO
 Author: Cristofer Rojas
-Add a description here!
+Implements Stack and Queue classes to manage data using LIFO and FIFO operations for DFS and BFS pathfinding.
 """
 
 
