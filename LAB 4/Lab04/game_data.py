@@ -316,14 +316,70 @@ class GameData:
         else:
             cells_to_search = Queue()
 
-        # TODO Add your code here
         
-        # Replace this line after implementing this method
+        # Start searching from the player's current cell
+        player = self.get_player()
+        cells_to_search.add(player)
+        player.set_added_to_search_list()
+
+        # Continue searching until all cells have been checked
+        while not cells_to_search.is_empty():
+
+            # Remove the next cell to examine
+            current = cells_to_search.remove()
+
+            # If food is found, return the first step toward it
+            if current.is_food():
+                return self.get_first_cell_in_path(current)
+
+            # Get all four neighboring cells
+            neighbors = [
+                self.get_north_neighbor(current),
+                self.get_south_neighbor(current),
+                self.get_east_neighbor(current),
+                self.get_west_neighbor(current)
+            ]
+
+            # Examine each neighboring cell
+            for neighbor in neighbors:
+
+                # Skip invalid cells outside the board
+                if neighbor is None:
+                    continue
+
+                # Check if the cell has already been discovered
+                if not neighbor.on_search_list():
+
+                    # Avoid cells occupied by the player's body
+                    if not neighbor.is_body():
+
+                        # Record the previous cell in the path
+                        neighbor.set_search_parent(current)
+
+                        # Mark the cell as discovered
+                        neighbor.set_added_to_search_list()
+
+                        # Add the cell to the search structure
+                        cells_to_search.add(neighbor)
+
+        
+        # If no path to food is found, choose a random neighboring cell
         return self.get_random_neighbor(self.get_player())
     
+    
     def get_first_cell_in_path(self, cell) -> Cell:
-        """ TODO Add a docstring here """
-        pass # Remove this line after you implement your method
+        """Return the first cell on the path toward the food."""
+
+        # Start at the food cell
+        current = cell
+
+        # Follow the search parents backward
+        while current.get_search_parent() != self.get_player():
+            current = current.get_search_parent()
+
+        # Return the first step toward the food
+        return current
+
 
     def reset_cells_for_search(self):
         """ Clears all the search info for each cell """

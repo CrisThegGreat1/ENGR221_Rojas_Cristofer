@@ -1,7 +1,8 @@
 """ TODO
-Author: Your name here!
+Author: Cristofer Rojas
 Add a description here!
 """
+
 
 class Queue():
     def __init__(self):
@@ -9,16 +10,18 @@ class Queue():
 
     def add(self, item) -> None:
         """ "Enqueue" the item to the end of the queue """
-        pass
+        self.items.append(item)
 
     def remove(self):
-        """ Dequeue" the item from the queue and return it """
-        pass
-    
+        """ "Dequeue" the item from the queue and return it """
+        return self.items.pop(0)
+
     def is_empty(self) -> bool:
         """ Returns whether or not the queue is empty """
-        pass
+        return len(self.items) == 0
+
     
+
 
 class Stack():
     def __init__(self):
@@ -26,12 +29,12 @@ class Stack():
 
     def add(self, item) -> None:
         """ Push an item to the top of the stack """
-        pass
+        self.items.insert(0, item)
 
     def remove(self):
         """ Pop an item from the stack and return it """
-        pass
-    
+        return self.items.pop(0)
+
     def is_empty(self) -> bool:
         """ Returns whether or not the stack is empty """
-        pass
+        return len(self.items) == 0

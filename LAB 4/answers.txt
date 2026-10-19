@@ -38,3 +38,46 @@ probably no different here.
 Pseudo code 2.1
 """ IF next cell contains food:  Move the head into the next cell  Keep the tail in its current position
   ELSE IF next cell is empty:  Move the head into the next cell  Remove the old tail"""
+
+File for Part 2 (answers to part 2.2.1)
+
+A. When you add an item to a stack, where should it be added?
+
+An item should be added to the beginning of the stack. This is because stacks follow 
+the Last In, First Out (LIFO) principle, meaning the most recently added item is the first 
+one to be removed. By adding new items at index 0, they become the first items 
+available for removal.
+
+B. When you remove an item from a stack, which item should be removed?
+
+An item should be removed from the beginning of the stack. Since stacks operate using 
+the LIFO principle, the most recently added item must be removed first. 
+Removing from index 0 ensures that the last item added is the first one taken out.
+
+C. When you add an item to a queue, where should it be added?
+
+An item should be added to the end of the queue. This is because queues follow the 
+First In, First Out (FIFO) principle, meaning the first item added should be the first one 
+removed. Adding new items to the end allows older items to remain at the front of the 
+queue.
+
+D. When you remove an item from a queue, which item should be removed?
+
+An item should be removed from the beginning of the queue. Since queues operate
+using the FIFO principle, the item that has been waiting the longest should be removed 
+first. Removing from index 0 ensures that items leave the queue in the same order they
+were added.
+
+
+section 2.3 Pseudocode
+
+
+Part 3: get_first_cell_in_path() Pseudocode
+
+1. Start at the cell containing the food.
+2. Store this cell as the current cell.
+3. While the current cell's search parent is not the player:
+   - Move backward to the current cell's search parent.
+4. Once the search parent is the player, stop.
+5. Return the current cell as the next cell the player should move into.
+
