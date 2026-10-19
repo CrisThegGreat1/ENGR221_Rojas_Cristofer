@@ -81,3 +81,20 @@ Part 3: get_first_cell_in_path() Pseudocode
 4. Once the search parent is the player, stop.
 5. Return the current cell as the next cell the player should move into.
 
+
+Part 3: Compare BFS and DFS
+
+A. What happens when you run AI mode with DFS? Explain why the player behaves in this way.
+
+When AI mode uses Depth-First Search (DFS), the player may take longer and less direct routes to reach the
+food. This happens because DFS uses a stack, which follows the Last In, First Out (LIFO) principle.
+  Instead of exploring all nearby cells first, DFS follows one path as far as possible before exploring 
+  other paths. As a result, the player may travel around the board rather than taking the shortest route
+ to the food.
+
+B. Will DFS or BFS find a shorter path to a food? Why?
+
+Breadth-First Search (BFS) will find the shortest path to the food in this game because it explores neighboring
+ cells one level at a time. BFS uses a queue, which follows the First In, First Out (FIFO) principle. 
+ This allows BFS to examine nearby cells before moving farther away. Since each movement between cells 
+ has the same cost, BFS guarantees the shortest available path to the food, while DFS does not.
