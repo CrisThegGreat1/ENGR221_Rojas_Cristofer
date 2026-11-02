@@ -1,95 +1,40 @@
+"""Antarctic Survival display, gameplay, and image settings.
+Reconstructed from the interfaces expected by the supplied starter files.
 """
-Author: Prof. Alyssa
-Defines constants to be used for the program.
-You do NOT need to modify this file.
-"""
-
+import os
 import pygame
-import os 
+
 
 class Preferences:
-    """ Defines values for constant variables.
-        This is good practice to avoid "magic numbers" """
-    
+    """Shared constants used by the board, controller, and cells."""
     pygame.init()
-    
-    ########
-    # TEXT #
-    ########
+    NUM_ROWS = 12
+    NUM_COLS = 16
+    NUM_CELLS = NUM_ROWS * NUM_COLS
+    CELL_WIDTH = 40
+    CELL_HEIGHT = 40
+    BOARD_WIDTH = NUM_COLS * CELL_WIDTH
+    BOARD_HEIGHT = NUM_ROWS * CELL_HEIGHT + 40
 
-    SCORE_FONT_SIZE = 25
-    SCORE_FONT = pygame.font.SysFont(None, SCORE_FONT_SIZE)
+    COLOR_BACKGROUND = pygame.Color('aliceblue')
+    COLOR_PLAYER = pygame.Color('dodgerblue')
+    COLOR_FOOD = pygame.Color('gold')
+    COLOR_ENEMY = pygame.Color('firebrick')
+
+    SCORE_FONT = pygame.font.SysFont(None, 30)
+    SCORE_TEXT = 'Fish eaten: {}'
     SCORE_FONT_COLOR = pygame.Color('black')
-    SCORE_TEXT = "Bands collected: {}"
+    GAMEOVER_FONT = pygame.font.SysFont(None, 58)
+    GAMEOVER_TEXT = 'GAME OVER'
+    GAMEOVER_FONT_COLOR = pygame.Color('darkred')
 
-    GAMEOVER_FONT_SIZE = 50
-    GAMEOVER_FONT = pygame.font.SysFont(None, GAMEOVER_FONT_SIZE)
-    GAMEOVER_FONT_COLOR = pygame.Color('red')
-    GAMEOVER_TEXT = "You were caught by ICE!\nPress any key to exit."
-
-
-    ##########
-    # SIZING #
-    ##########
-
-    CELL_WIDTH = 50           # In pixels
-    CELL_HEIGHT = CELL_WIDTH  # In pixels
-
-    NUM_ROWS = 10   # Number of rows in the board
-    NUM_COLS = 10   # Number of columns in the board
-
-    # Total number of cells on the board
-    NUM_CELLS = NUM_ROWS * NUM_COLS  
-
-    # Calculate board size
-    BOARD_WIDTH = CELL_WIDTH * NUM_COLS
-    BOARD_HEIGHT = CELL_HEIGHT * NUM_ROWS + SCORE_FONT_SIZE
-
-
-    ###############
-    # CELL COLORS #
-    ###############
-
-    COLOR_BACKGROUND = pygame.Color('white')
-    COLOR_PLAYER = pygame.Color('blue')
-    COLOR_FOOD = pygame.Color('green')
-    COLOR_ENEMY = pygame.Color('red')
-    
-
-    ##########
-    # TIMING #
-    ##########
-
-    # How long to sleep between updates (ms)
     SLEEP_TIME = 50
-    # How frequently to add food to the board (cycles)
     FOOD_ADD_RATE = 10
-    # How frequently to add enemies to the board (cycles)
     ENEMY_ADD_RATE = 50
+    MAX_FOOD = 0.25
+    MAX_ENEMIES = 0.15
 
-
-    ############
-    # GRAPHICS #
-    ############
-
-    # Directory containing the images
-    IMG_DIR = os.path.join(os.path.dirname(
-                            os.path.realpath(__file__)), 
-                            'images')
-
-    # Image to display as the player
-    PLAYER_IMAGE = os.path.join(IMG_DIR, "Player_Imaige1.png")
-    # Image to display as food
-    FOOD_IMAGE = os.path.join(IMG_DIR, "cartoon_money.png")
-    # Image to display as an enemy
-    ENEMY_IMAGE = os.path.join(IMG_DIR, 'cartoon_border_patrol.png')
-
-
-    #######################
-    # CELL CONFIGURATIONS #
-    #######################
-
-    # Only allow 20% of the board to be food at once
-    MAX_FOOD = NUM_CELLS // 5 
-    # Only allow 5% of the board to be enemies at once
-    MAX_ENEMIES = NUM_CELLS // 20
+    IMG_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'images')
+    PLAYER_IMAGE = os.path.join(IMG_DIR, 'penguin.png')
+    FOOD_IMAGE = os.path.join(IMG_DIR, 'fish.png')
+    ENEMY_IMAGE = os.path.join(IMG_DIR, 'seal.png')

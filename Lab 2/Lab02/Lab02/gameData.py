@@ -1,286 +1,220 @@
-"""
-Name: Cristofer Rojas
-Last Updated: September 20, 2026
-Description: This file contains the GameData class and methods for
-managing the game board, player movement, food, and enemy movement.
+"""Homework 2: Antarctic Survival game state and movement logic.
+Author: Cristofer Rojas
+Last updated: November 2, 2026
+Description: Manages the board, neighbors, penguin movement, fish, seals,
+score, and game-over conditions for the Pygame Antarctic Survival game.
 """
 
 import random
-
 from cell import Cell
-import cell
 from preferences import Preferences
+
 
 class GameData:
     def __init__(self):
-        # The current state of the board
-        self.board = [[Cell(row, col) for col in range(Preferences.NUM_COLS)] 
-                                      for row in range(Preferences.NUM_ROWS)]
-        
-        # Whether or not the game is over
+        """Create the board and initialize the player, food, and enemies."""
+        self.board = [[Cell(row, col) for col in range(Preferences.NUM_COLS)]
+                      for row in range(Preferences.NUM_ROWS)]
         self.gameover = False
-
-        # The current cell containing the player
-        self.player = self.board[0][0]    # Start at the top left
+        self.player = self.board[0][0]
         self.player.become_player()
-
-        # The number of empty cells on the board, accounting for the player cell
         self.num_empty_cells = Preferences.NUM_CELLS - 1
-
-        # A list of cells containing food
         self.food = []
-        # Number of food eaten
         self.score = 0
-
-        # A list of cells containing enemies
         self.enemies = []
-
 
     #######################
     # Game Limits Methods #
     #######################
 
     def at_max_food(self) -> bool:
-        """ Check whether we can add more food """
-        return len(self.food) / self.num_empty_cells > Preferences.MAX_FOOD
-    
+        """Return True when the board has reached its food limit."""
+        return (len(self.food) / max(1, self.num_empty_cells)
+                > Preferences.MAX_FOOD)
+
     def at_max_enemies(self) -> bool:
-        """ Check whether we can add more enemies """
-        return len(self.enemies) / self.num_empty_cells > Preferences.MAX_ENEMIES
+        """Return True when the board has reached its enemy limit."""
+        return (len(self.enemies) / max(1, self.num_empty_cells)
+                > Preferences.MAX_ENEMIES)
 
     def set_game_over(self) -> None:
-        """ Turn on the game over flag """
+        """Mark the game as over."""
         self.gameover = True
-
 
     ##############################
     # Neighbor Retrieval Methods #
     ##############################
 
     def get_west_neighbor(self, cell: Cell) -> Cell:
-        """ Returns the cell immediately to the left of the given cell.
-        If we are at the edge of the map, return None. """
-
-        row = cell.get_row()
-        col = cell.get_col()
-
-        if col == 0:
+        """Return the existing cell to the left, or None at the edge."""
+        # TODO completed: columns decrease as we move left.
+        if cell.get_col() == 0:
             return None
-
-        return self.board[row][col - 1]
+        return self.board[cell.get_row()][cell.get_col() - 1]
 
     def get_east_neighbor(self, cell: Cell) -> Cell:
-        """ Returns the cell immediately to the right of the given cell.
-        If we are at the edge of the map, return None. """
-
-        row = cell.get_row()
-        col = cell.get_col()
-
-        if col == Preferences.NUM_COLS - 1:
+        """Return the existing cell to the right, or None at the edge."""
+        # TODO completed: columns increase as we move right.
+        if cell.get_col() >= Preferences.NUM_COLS - 1:
             return None
-
-        return self.board[row][col + 1]
-
+        return self.board[cell.get_row()][cell.get_col() + 1]
 
     def get_north_neighbor(self, cell: Cell) -> Cell:
-        """ Returns the cell immediately above the given cell.
-        If we are at the edge of the map, return None. """
-
-        row = cell.get_row()
-        col = cell.get_col()
-
-        if row == 0:
+        """Return the existing cell above, or None at the edge."""
+        # TODO completed: rows decrease as we move up.
+        if cell.get_row() == 0:
             return None
-
-        return self.board[row - 1][col]
-
+        return self.board[cell.get_row() - 1][cell.get_col()]
 
     def get_south_neighbor(self, cell: Cell) -> Cell:
-        """ Returns the cell immediately below the given cell.
-        If we are at the edge of the map, return None. """
-
-        row = cell.get_row()
-        col = cell.get_col()
-
-        if row == Preferences.NUM_ROWS - 1:
+        """Return the existing cell below, or None at the edge."""
+        # TODO completed: rows increase as we move down.
+        if cell.get_row() >= Preferences.NUM_ROWS - 1:
             return None
+        return self.board[cell.get_row() + 1][cell.get_col()]
 
-        return self.board[row + 1][col]
+    ###########################
+    # Player Movement Methods #
+    ###########################
 
-        ###########################
-        # Player Movement Methods #
-        ###########################
-        
     def move_player_right(self) -> None:
-        """ Move the player one cell to the right if possible """
+        """Move the player right if a cell exists there."""
+        # TODO completed: use the neighbor helper and existing move method.
         cell = self.get_east_neighbor(self.player)
-
         if cell is not None:
             self.move_player_to_cell(cell)
-
 
     def move_player_left(self) -> None:
-        """ Move the player one cell to the left if possible """
+        """Move the player left if a cell exists there."""
+        # TODO completed: prevent movement beyond the left boundary.
         cell = self.get_west_neighbor(self.player)
-
         if cell is not None:
             self.move_player_to_cell(cell)
-
 
     def move_player_up(self) -> None:
-        """ Move the player one cell up if possible """
+        """Move the player up if a cell exists there."""
+        # TODO completed: prevent movement beyond the top boundary.
         cell = self.get_north_neighbor(self.player)
-
         if cell is not None:
             self.move_player_to_cell(cell)
 
-
     def move_player_down(self) -> None:
-        """ Move the player one cell down if possible """
+        """Move the player down if a cell exists there."""
+        # TODO completed: prevent movement beyond the bottom boundary.
         cell = self.get_south_neighbor(self.player)
-
         if cell is not None:
             self.move_player_to_cell(cell)
 
     def move_player_to_cell(self, cell: Cell) -> None:
-        """ Move the player to the given cell """
-
-        # If there is food in this cell, eat it
+        """Move to a cell, eating food or ending the game if necessary."""
         if cell.is_food():
             self.eat_food(cell)
             self.update_player_cell(cell)
-        # If there is an enemy in this cell, game over!
         elif cell.is_enemy():
             self.player.become_empty()
+            self.num_empty_cells += 1
             self.set_game_over()
-        # Otherwise, update the player location
         else:
             self.update_player_cell(cell)
 
     def update_player_cell(self, new_cell: Cell) -> None:
-        """ Move the player to the new cell """
-    
-        # Empty the cell the player just moved away from
+        """Change the previous player cell to empty and occupy a new one."""
         self.player.become_empty()
-        # Update the player to the new cell
         self.player = new_cell
-        # Change the new cell to be the player type
         self.player.become_player()
-
 
     ########################
     # Food Related Methods #
     ########################
 
     def add_food(self) -> None:
-     """ Adds food to a random open spot on the board """
-
-     #fine a row on the board
-     row = random.randrange(0, Preferences.NUM_ROWS)
-       
-        # Find a col on the board
-     col = random.randrange(0, Preferences.NUM_COLS)
-
-     cell = self.board[row][col]
-
-     if cell.is_empty():
-            cell.become_food()
-            self.food.append(cell)
+        """Place fish in a randomly selected empty board cell."""
+        # TODO completed: choose a random position and check occupancy.
+        if self.num_empty_cells <= 0:
+            return
+        row = random.randrange(0, Preferences.NUM_ROWS)
+        col = random.randrange(0, Preferences.NUM_COLS)
+        cell = self.board[row][col]
+        if cell.is_empty():
+            cell.become_food()        # Mark the selected cell as fish.
+            self.food.append(cell)   # Keep track of the new fish.
             self.num_empty_cells -= 1
 
-        
-
     def eat_food(self, cell: Cell) -> None:
-        """ Behavior for when the player eats food """
-
-        self.food.remove(cell)
-        self.score += 1
-        self.num_empty_cells += 1
-
+        """Remove eaten fish from the food list and increase the score."""
+        # TODO completed: food is replaced by the player, not an empty cell.
+        if cell.is_food():
+            self.food.remove(cell)
+            self.score += 1
+            # The old player position becomes empty when movement completes;
+            # therefore the number of empty cells stays unchanged.
 
     ##########################
     # Enemy Movement Methods #
     ##########################
 
     def add_enemy(self) -> None:
-        """ Adds an enemy to the bottom right corner of the board """
+        """Spawn a seal in the bottom-right corner if the cell is available."""
+        # TODO completed: find the specified corner, checking its contents.
         cell = self.board[Preferences.NUM_ROWS - 1][Preferences.NUM_COLS - 1]
-
+        if cell.is_enemy():
+            return                 # Never place two seals in one cell.
         if cell.is_player():
-            self.set_game_over()
-
-        elif cell.is_food():
-            self.food.remove(cell)
+            self.set_game_over()   # A seal spawning on the penguin ends the game.
+            self.player.become_empty()
             cell.become_enemy()
             self.enemies.append(cell)
-
-        elif cell.is_empty():
+        else:
+            if cell.is_food():
+                self.food.remove(cell)  # A seal can replace fish.
+            elif cell.is_empty():
+                self.num_empty_cells -= 1
             cell.become_enemy()
             self.enemies.append(cell)
-            self.num_empty_cells -= 1
-       
 
     def move_enemy_to_cell(self, enemy_cell: Cell,
-                       cell: Cell, idx: int) -> None:
-        """ Moves the enemy cell to a new location.
-            idx represents the index of that enemy in
-            the enemies list. """
-
-        if cell.is_player():
-            enemy_cell.become_empty()
-            self.set_game_over()
-
-        elif cell.is_food():
-            enemy_cell.become_empty()
-            self.food.remove(cell)
-            cell.become_enemy()
-            self.enemies[idx] = cell
-            self.num_empty_cells += 1
-
-        elif cell.is_empty():
-            enemy_cell.become_empty()
-            cell.become_enemy()
-            self.enemies[idx] = cell
-
-        elif cell.is_enemy():
+                           cell: Cell, idx: int) -> None:
+        """Move a seal to a valid cell, handling fish and player collisions."""
+        # TODO completed: avoid stacking seals or leaving the board.
+        if cell is None or cell.is_enemy():
             return
+        if cell.is_player():
+            self.set_game_over()   # Seal catches the penguin.
+        elif cell.is_food():
+            self.food.remove(cell) # Seal consumes/replaces fish.
+        elif cell.is_empty():
+            self.num_empty_cells -= 1
+        enemy_cell.become_empty()  # Free the old seal position.
+        self.num_empty_cells += 1
+        cell.become_enemy()        # Occupy the destination.
+        self.enemies[idx] = cell   # Keep the list synchronized.
 
     def move_enemy_left(self, idx: int) -> None:
-        """ Move the enemy at index idx left one cell """
-
-        enemy_cell = self.enemies[idx]
-        cell = self.get_west_neighbor(enemy_cell)
-
-        if cell is not None:
-            self.move_enemy_to_cell(enemy_cell, cell, idx)
-
+        """Attempt to move the indexed seal one cell left."""
+        # TODO completed: reuse the west neighbor helper.
+        enemy = self.enemies[idx]
+        self.move_enemy_to_cell(enemy, self.get_west_neighbor(enemy), idx)
 
     def move_enemy_right(self, idx: int) -> None:
-        """ Move the enemy at index idx right one cell """
-
-        enemy_cell = self.enemies[idx]
-        cell = self.get_east_neighbor(enemy_cell)
-
-        if cell is not None:
-            self.move_enemy_to_cell(enemy_cell, cell, idx)
-
+        """Attempt to move the indexed seal one cell right."""
+        # TODO completed: reuse the east neighbor helper.
+        enemy = self.enemies[idx]
+        self.move_enemy_to_cell(enemy, self.get_east_neighbor(enemy), idx)
 
     def move_enemy_up(self, idx: int) -> None:
-        """ Move the enemy at index idx up one cell """
-
-        enemy_cell = self.enemies[idx]
-        cell = self.get_north_neighbor(enemy_cell)
-
-        if cell is not None:
-            self.move_enemy_to_cell(enemy_cell, cell, idx)
-
+        """Attempt to move the indexed seal one cell up."""
+        # TODO completed: reuse the north neighbor helper.
+        enemy = self.enemies[idx]
+        self.move_enemy_to_cell(enemy, self.get_north_neighbor(enemy), idx)
 
     def move_enemy_down(self, idx: int) -> None:
-        """ Move the enemy at index idx down one cell """
+        """Attempt to move the indexed seal one cell down."""
+        # TODO completed: reuse the south neighbor helper.
+        enemy = self.enemies[idx]
+        self.move_enemy_to_cell(enemy, self.get_south_neighbor(enemy), idx)
 
-        enemy_cell = self.enemies[idx]
-        cell = self.get_south_neighbor(enemy_cell)
 
-        if cell is not None:
-            self.move_enemy_to_cell(enemy_cell, cell, idx)
-
+if __name__ == "__main__":
+    gd = GameData()
+    # Test an edge case: the top-left penguin has no west neighbor.
+    print(gd.get_west_neighbor(gd.player))
