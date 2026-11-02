@@ -1,0 +1,113 @@
+1.1.a: How do the draw_snowflake_recursive() and draw_snowflake_stack() functions
+draw a full snowflake?
+
+The `draw_snowflake_recursive()` and `draw_snowflake_stack()` functions draw a 
+complete snowflake by calling their respective curve-drawing methods three times.
+Each call draws one side of the snowflake, and the turtle rotates 120 degrees between 
+sides to form the complete shape.
+
+1.1.b: How many “sides” of the snowflake does each initial call of draw_curve_recursive()
+and draw_curve_stack() draw?
+
+Each initial call of `draw_curve_recursive()` and `draw_curve_stack()` draws one side of the
+snowflake. Three calls are required to draw the entire snowflake.
+
+1.1.c: How does get_time_and_mem() find the total time that a method takes to run?
+
+The `get_time_and_mem()` function measures the execution time of a method by recording
+the time before and after the method runs. It then subtracts the starting time from the
+ending time to calculate the total execution time.
+
+*Pseudocode for part 2* 
+
+2.1) 
+
+
+FUNCTION draw_curve_recursive_helper(length, depth)
+
+    IF depth equals 0 THEN
+        Move turtle forward by length
+
+    ELSE
+        Divide length by 3
+
+        Recursively draw the first segment
+        Turn turtle left 60 degrees
+
+        Recursively draw the second segment
+        Turn turtle right 120 degrees
+
+        Recursively draw the third segment
+        Turn turtle left 60 degrees
+
+        Recursively draw the fourth segment
+
+    END IF
+
+END FUNCTION
+
+* Part 3 Pseudocode * 
+
+3.1)
+
+
+FUNCTION draw_curve_stack()
+
+    Create a stack containing an "add_curve" command
+    with the initial length and depth
+
+    WHILE the stack is not empty
+
+        Remove the last command from the stack
+
+        IF command is "add_curve"
+
+            IF depth equals 0
+                Move turtle forward by length
+
+            ELSE
+                Divide length by 3
+                Decrease depth by 1
+
+                Push commands onto the stack in reverse order:
+
+                    Push "add_curve" for fourth segment
+                    Push "turn_left" 60 degrees
+                    Push "add_curve" for third segment
+                    Push "turn_right" 120 degrees
+                    Push "add_curve" for second segment
+                    Push "turn_left" 60 degrees
+                    Push "add_curve" for first segment
+
+            END IF
+
+        ELSE IF command is "turn_left"
+            Rotate turtle counterclockwise
+
+        ELSE IF command is "turn_right"
+            Rotate turtle clockwise
+
+        END IF
+
+    END WHILE
+
+END FUNCTION
+
+
+* Part 4 *
+
+4.1.a )
+
+The recursive method used 41.0859375 MB of memory and took 19.08452 seconds to execute.
+The non-recursive stack method used 29.9921875 MB of memory and took 18.88661 seconds to 
+execute.
+
+4.1.b:
+
+The non-recursive method used less memory and executed slightly faster than the recursive
+method. This is because the recursive method repeatedly calls itself, requiring Python to
+create and maintain additional function call frames in memory. The non-recursive method 
+instead uses a stack to store drawing instructions and processes them using a while loop,
+avoiding the overhead of repeated recursive function calls. Both methods produce the same
+snowflake, but the stack-based method was more memory-efficient and slightly faster in 
+this test.
