@@ -81,25 +81,25 @@ class KochSnowflake:
 
             # SECOND SEGMENT
 
-            # Rotate the turtle 60 degrees counterclockwise.
-            self.t.left(60)
+            # Rotate the turtle 60 degreesclockwise.
+            self.t.right(60)
 
             # Recursively draw the second smaller segment.
             self.draw_curve_recursive_helper(new_length, depth - 1)
 
             # THIRD SEGMENT
 
-            # Rotate the turtle 120 degrees clockwise.
-            self.t.right(120)
+            # Rotate the turtle 120 degrees counterclockwise.
+            self.t.left(120)
 
             # Recursively draw the third smaller segment.
             self.draw_curve_recursive_helper(new_length, depth - 1)
 
             # FOURTH SEGMENT
 
-            # Rotate the turtle 60 degrees counterclockwise.
+            # Rotate the turtle 60 degrees clockwise.
             # This returns the turtle to its original heading.
-            self.t.left(60)
+            self.t.right(60)
 
             # Recursively draw the fourth smaller segment.
             self.draw_curve_recursive_helper(new_length, depth - 1)
@@ -153,26 +153,28 @@ class KochSnowflake:
                     # Add commands in REVERSE execution order.
                     # The last command pushed will execute first.
 
-                    # Fourth segment: Draw the final smaller curve.
+                                    
+                    # Fourth segment: Added first, executed last
                     commands.append(("add_curve", new_length, new_depth))
 
-                    # Turn left 60 degrees before the fourth segment.
-                    commands.append(("turn_left", 60))
+                    # Turn right 60 degrees before the fourth segment
+                    commands.append(("turn_right", 60))
 
-                    # Third segment: Draw the third smaller curve.
+                    # Third segment
                     commands.append(("add_curve", new_length, new_depth))
 
-                    # Turn right 120 degrees before the third segment.
-                    commands.append(("turn_right", 120))
+                    # Turn left 120 degrees before the third segment
+                    commands.append(("turn_left", 120))
 
-                    # Second segment: Draw the second smaller curve.
+                    # Second segment
                     commands.append(("add_curve", new_length, new_depth))
 
-                    # Turn left 60 degrees before the second segment.
-                    commands.append(("turn_left", 60))
+                    # Turn right 60 degrees before the second segment
+                    commands.append(("turn_right", 60))
 
-                    # First segment: This will execute first.
+                    # First segment: Added last, executed first
                     commands.append(("add_curve", new_length, new_depth))
+
 
             # Check whether the command requires a left turn.
             elif command[0] == "turn_left":
@@ -256,12 +258,10 @@ class KochSnowflake:
 
 
 if __name__ == "__main__":
-
-    # Create a Koch snowflake with length 500 and depth 3
+    # Create a snowflake with side length 500 and depth 3
     s = KochSnowflake(500, 3)
 
-    # Compare the execution time and memory usage
-    # of the recursive and stack-based methods
-    s.compare_snowflake()
+    # Test the corrected recursive method
+    s.draw_snowflake_recursive()
 
 
