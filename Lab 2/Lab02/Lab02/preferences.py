@@ -22,10 +22,10 @@ class Preferences:
     COLOR_ENEMY = pygame.Color('firebrick')
 
     SCORE_FONT = pygame.font.SysFont(None, 30)
-    SCORE_TEXT = 'Fish eaten: {}'
+    SCORE_TEXT = 'Bands Collected: {}'
     SCORE_FONT_COLOR = pygame.Color('black')
     GAMEOVER_FONT = pygame.font.SysFont(None, 58)
-    GAMEOVER_TEXT = 'GAME OVER'
+    GAMEOVER_TEXT = 'Imprisoned by patrol'
     GAMEOVER_FONT_COLOR = pygame.Color('darkred')
 
     SLEEP_TIME = 50
@@ -35,6 +35,6 @@ class Preferences:
     MAX_ENEMIES = 0.15
 
     IMG_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'images')
-    PLAYER_IMAGE = os.path.join(IMG_DIR, 'penguin.png')
-    FOOD_IMAGE = os.path.join(IMG_DIR, 'fish.png')
-    ENEMY_IMAGE = os.path.join(IMG_DIR, 'seal.png')
+    PLAYER_IMAGE = os.path.join(IMG_DIR, 'Headshot_me.png')
+    FOOD_IMAGE = os.path.join(IMG_DIR, 'Money_wad.png')
+    ENEMY_IMAGE = os.path.join(IMG_DIR, 'Boarder_Patrol.png')
