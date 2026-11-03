@@ -1,6 +1,6 @@
 """Homework 2: Antarctic Survival game state and movement logic.
 Author: Cristofer Rojas
-Last updated: November 2, 2026
+Last updated: septermer 14, 2026
 Description: Manages the board, neighbors, penguin movement, fish, seals,
 score, and game-over conditions for the Pygame Antarctic Survival game.
 """

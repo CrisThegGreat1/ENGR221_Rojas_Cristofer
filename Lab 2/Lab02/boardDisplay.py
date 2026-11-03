@@ -125,16 +125,38 @@ class BoardDisplay:
         self.screen.blit(text, text_rect)
        
     def display_gameover(self) -> None:
-        """ Displays the game over message on the screen """
+        """Display multiple lines of text when the game ends."""
 
-        # Get the font
+        # Get the game-over font from Preferences
         font = Preferences.GAMEOVER_FONT
-        # Create the text 
-        text = font.render(Preferences.GAMEOVER_TEXT, 
-                           True, Preferences.GAMEOVER_FONT_COLOR)
-        # Get the dimensions of the text box
-        text_rect = text.get_rect()
-        # Position the text in the middle of the screen
-        text_rect.center = (Preferences.BOARD_WIDTH / 2, Preferences.BOARD_HEIGHT / 2)
-        # Place the text on the screen
-        self.screen.blit(text, text_rect)
+
+        # Calculate the height of each line
+        line_height = font.get_linesize()
+
+        # Calculate the total height of all messages
+        total_height = len(Preferences.GAMEOVER_TEXT) * line_height
+
+        # Center the complete message vertically
+        start_y = (Preferences.BOARD_HEIGHT - total_height) // 2
+
+        # Loop through each message in the list
+        for i, line in enumerate(Preferences.GAMEOVER_TEXT):
+
+            # Render one string at a time
+            text = font.render(
+                line,
+                True,
+                Preferences.GAMEOVER_FONT_COLOR
+            )
+
+            # Get the dimensions of the rendered text
+            text_rect = text.get_rect()
+
+            # Center the text horizontally
+            text_rect.centerx = Preferences.BOARD_WIDTH // 2
+
+            # Position each line underneath the previous one
+            text_rect.y = start_y + i * line_height
+
+            # Draw the text onto the screen
+            self.screen.blit(text, text_rect)

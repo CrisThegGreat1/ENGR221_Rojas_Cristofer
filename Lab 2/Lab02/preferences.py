@@ -20,12 +20,13 @@ class Preferences:
     SCORE_FONT_SIZE = 25
     SCORE_FONT = pygame.font.SysFont(None, SCORE_FONT_SIZE)
     SCORE_FONT_COLOR = pygame.Color('black')
-    SCORE_TEXT = "Fish eaten: {}"
+    SCORE_TEXT = "Bands Collected: {}"
 
-    GAMEOVER_FONT_SIZE = 50
+    GAMEOVER_FONT_SIZE = 30 
     GAMEOVER_FONT = pygame.font.SysFont(None, GAMEOVER_FONT_SIZE)
     GAMEOVER_FONT_COLOR = pygame.Color('red')
-    GAMEOVER_TEXT = "You were eaten by a seal!\nPress any key to exit."
+    GAMEOVER_TEXT = ["You were caught by Boarder Patrol!" ,
+    "press any key to restart the game."]
 
 
     ##########
@@ -78,11 +79,11 @@ class Preferences:
                             'images')
 
     # Image to display as the player
-    PLAYER_IMAGE = os.path.join(IMG_DIR, "penguin.png")
+    PLAYER_IMAGE = os.path.join(IMG_DIR, "Headshot_me.png")
     # Image to display as food
-    FOOD_IMAGE = os.path.join(IMG_DIR, "fish.png")
+    FOOD_IMAGE = os.path.join(IMG_DIR, "Money_wad.png")
     # Image to display as an enemy
-    ENEMY_IMAGE = os.path.join(IMG_DIR, 'seal.png')
+    ENEMY_IMAGE = os.path.join(IMG_DIR, 'Boarder_Patrol.png')
 
 
     #######################
