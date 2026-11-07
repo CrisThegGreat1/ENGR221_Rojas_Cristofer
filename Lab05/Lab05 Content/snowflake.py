@@ -37,7 +37,7 @@ class KochSnowflake:
         t.speed(8)
 
         # Move the turtle to its starting position
-        t.teleport(-200, -200)
+        t.teleport(-250, -140)
 
         # Store the turtle object for other methods
         self.t = t

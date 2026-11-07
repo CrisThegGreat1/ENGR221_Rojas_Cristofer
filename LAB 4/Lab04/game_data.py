@@ -251,6 +251,11 @@ class GameData:
             # Check whether the next cell contains food
             food_collected = cell.is_food()
 
+            # Increase score when food is collected
+            if food_collected:
+                self.score += 1
+                self.food.remove(cell)
+
             # Change the current head into a body segment
             self.get_player().become_body()
 
@@ -299,6 +304,7 @@ class GameData:
 
         # Increment the player's score
         self.score += 1
+        print("current score:", self.score)
 
     ##############
     # AI methods #

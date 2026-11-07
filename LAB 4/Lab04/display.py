@@ -126,15 +126,29 @@ class BoardDisplay:
         self.screen.blit(text, text_rect)
        
     def display_gameover(self) -> None:
-        """ Displays the game over message on the screen """
+        """Displays the game over message on the screen."""
 
         # Get the font
         font = Preferences.GAMEOVER_FONT
-        # Create the text 
-        text = font.render(Preferences.GAMEOVER_TEXT, 
-                           True, Preferences.GAMEOVER_FONT_COLOR)
-        # Position the text in the center of the screen
-        text_rect = text.get_rect(center=(Preferences.BOARD_WIDTH / 2, 
-                                          Preferences.BOARD_HEIGHT / 2))
-        # Place the text on the screen
-        self.screen.blit(text, text_rect)
+
+        # Separate the message into multiple lines
+        lines = Preferences.GAMEOVER_TEXT.split("\n")
+
+        # Draw each line separately
+        for i, line in enumerate(lines):
+
+            # Create the text
+            text = font.render(
+                line, True, Preferences.GAMEOVER_FONT_COLOR
+            )
+
+            # Position each line in the center of the screen
+            text_rect = text.get_rect(
+                center=(
+                    Preferences.BOARD_WIDTH / 2,
+                    Preferences.BOARD_HEIGHT / 2 + i * 60
+                )
+            )
+
+            # Place the text on the screen
+            self.screen.blit(text, text_rect)

@@ -25,7 +25,8 @@ class Preferences:
     GAMEOVER_FONT_SIZE = 50
     GAMEOVER_FONT = pygame.font.SysFont(None, GAMEOVER_FONT_SIZE)
     GAMEOVER_FONT_COLOR = pygame.Color('red')
-    GAMEOVER_TEXT = "You stepped on a duck!\nPress any key to exit."
+    GAMEOVER_TEXT = "You stepped on a duck!\n Press any key to exit."
+    
 
 
     ##########
